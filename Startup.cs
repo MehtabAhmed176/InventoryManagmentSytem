@@ -12,6 +12,7 @@ using InventoryManagment.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using InventoryManagment.Models;
 
 namespace InventoryManagment
 {
@@ -27,11 +28,11 @@ namespace InventoryManagment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContextPool<InventoryDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("SqlConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+          /*  services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();*/
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -62,7 +63,7 @@ namespace InventoryManagment
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Items}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
