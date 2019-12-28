@@ -15,5 +15,8 @@ namespace InventoryManagment.Models
         public virtual Branch Branches { get; set; }
 
         public virtual Item Items { get; set; }
+
+
     }
+
 }

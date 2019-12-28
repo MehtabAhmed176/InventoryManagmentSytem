@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,8 +16,6 @@ namespace InventoryManagment.Models
         public string Description { get; set; }
 
         public string Photo { get; set; }
-
-       
 
         public IList<ItemBranch> AllBranches { get; set; }
     }

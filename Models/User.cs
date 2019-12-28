@@ -17,10 +17,10 @@ namespace InventoryManagment.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        // [Compare("Password",ErrorMessage ="Password dont match")]
-        // [DataType(DataType.Password)]
-        // [Required(ErrorMessage = "Password is Required")]
-        //  public string ConfirmPassword { get; set; }
+         [Compare("Password",ErrorMessage ="Password dont match")]
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Password is Required")]
+         public string ConfirmPassword { get; set; }
 
         public string Role { get; set; }
         [ForeignKey("BranchId")]

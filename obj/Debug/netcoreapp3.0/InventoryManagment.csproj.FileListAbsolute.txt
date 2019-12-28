@@ -320,3 +320,13 @@ C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryMana
 C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Branches\Details.cshtml.g.cs
 C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Branches\Edit.cshtml.g.cs
 C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Branches\Index.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Employee\Create.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Employee\Delete.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Employee\Details.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Employee\Edit.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\Employee\Index.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\User\Create.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\User\Delete.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\User\Details.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\User\Edit.cshtml.g.cs
+C:\Users\ahmed\OneDrive\Desktop\APT\InventoryManagmentSytem-master\InventoryManagmentSytem-master\obj\Debug\netcoreapp3.0\Razor\Views\User\Index.cshtml.g.cs

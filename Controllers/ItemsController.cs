@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagment.Models;
+using InventoryManagment.ViewModel;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System;
 
 namespace InventoryManagment.Controllers
 {
     public class ItemsController : Controller
     {
         private readonly InventoryDbContext _context;
-
-        public ItemsController(InventoryDbContext context)
+        [System.Obsolete]
+        private readonly IHostingEnvironment _hostingEnvironment;
+        [System.Obsolete]
+        public ItemsController(InventoryDbContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
+            _hostingEnvironment = appEnvironment;
         }
 
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Items.ToListAsync());
+            
+            return View(await _context.Items.Include(c=>c.AllBranches).ToListAsync());
         }
 
         // GET: Items/Details/5
@@ -53,15 +58,36 @@ namespace InventoryManagment.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemId,ItemName,Quantity,Price,Description,Photo")] Item item)
+        [System.Obsolete]
+        public async Task<IActionResult> Create(ItemsViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(item);
+                string uniqueFileName = null;
+                if (model.Photo!=null)
+                {
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.Photo.CopyTo(fileStream);
+                    }
+                }
+               
+
+                Item items = new Item();
+                items.ItemName = model.ItemName;
+                items.Price = model.Price;
+                items.Quantity = model.Quantity;
+                items.Description = model.Description;
+                items.Photo = uniqueFileName;
+                _context.Add(items);
+               
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(item);
+            return View(model);
         }
 
         // GET: Items/Edit/5
