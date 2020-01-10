@@ -1,15 +1,32 @@
-﻿@model IEnumerable<InventoryManagment.Models.Item>
+﻿@model IEnumerable<InventoryManagement.Models.Item>
 
 @{
     ViewData["Title"] = "Index";
-   
 }
 
-<h1>Index</h1>
+<h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <p>
+                Title: <input type="text"  />
+                <input type="submit" value="Filter" />
+            </p>
+        </form>
+    </div>
+</div>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -32,36 +49,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-    
-    var photoPath = "~/Images/" + (item.Photo ?? "noimage.png");
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <img style="height:50px; width:auto" class="card-img-top imageThumbnail img-fluid img-thumbnail" src="@photoPath"
-                     asp-append-version="true" />
-            </td>
+        @foreach (var item in Model)
+        {
 
-            <td>
-                @Html.DisplayFor(modelItem => item.AllBranches)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
-            </td>
-        </tr>
-}
+            var photoPath = "~/Images/" + (item.Photo ?? "noimage.png");
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                    <img style="height:50px; width:auto" class="card-img-top imageThumbnail img-fluid img-thumbnail" src="@photoPath"
+                         asp-append-version="true" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

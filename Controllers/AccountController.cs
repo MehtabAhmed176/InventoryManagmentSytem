@@ -2,74 +2,103 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InventoryManagment.ViewModel;
+using InventoryManagement.Data;
+using InventoryManagement.Models;
+using InventoryManagement.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagment.Controllers
+namespace InventoryManagement.Controllers
 {
+   // [Authorize]
     public class AccountController : Controller
     {
 
-      
-            private readonly UserManager<IdentityUser> userManager;
-            private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly ApplicationDbContext _context;
 
-            public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
-            {
-                this.userManager = userManager;
-                this.signInManager = signInManager;
-            }
-            public IActionResult Index()
-            {
-                return View();
-            }
+        public AccountController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.roleManager = roleManager;
+            this._context = context;
+          
+        }
 
-            public async Task<IActionResult> RegistorAsync(RegistorViewModel model)
-            {
-                if (ModelState.IsValid)
-                {
-                    var user = new IdentityUser() { UserName = model.Email, Email = model.Email };
-                    var result = await userManager.CreateAsync(user, model.password);
-                    if (result.Succeeded)
-                    {
-                        await signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("index", "home");
 
-                    }
-                    foreach (var errors in result.Errors)
-                    {
-                        ModelState.AddModelError("", errors.Description);
-                    }
-
-                }
+       
 
 
 
-                return View();
-            }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var users = userManager.Users;
 
-            [HttpGet]
-            public IActionResult Login()
-            {
-                return View();
-            }
-        [HttpPost]
-        public IActionResult LoginSave(LoginViewModel model)
+            //ApplicationUser allusers = new ApplicationUser();
+            // IList<ApplicationUser> mysuers =allusers.UserBranchId. (s => s.ServiceId == 3).First().Branches.ToList();
+
+            //  var result = from allusers in _context.Users.Contains(x=>x.UserBranchId==Branch);
+            //             where men.Women.Any(women => women.Id == 1)
+            //           select men
+
+            var result = from parent in _context.Users
+
+                         join child in _context.Branches on parent.UserBranchId equals child.BranchId into all
+                         select all;
+
+   
+
+
+            return View(users);
+        }
+
+
+        [HttpGet]
+        public IActionResult CreateUser()
         {
             return View();
         }
-
-
-
         [HttpPost]
-            public async Task<IActionResult> Logout()
+      
+        public async Task<IActionResult> CreateUser(UserViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                await signInManager.SignOutAsync();
-                return RedirectToAction("index", "home");
+                var user = new ApplicationUser
+                {
+                    Name = model.Name,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    UserBranchId = model.BranchId
+                    
+                };
+
+                IdentityRole identityRole = new IdentityRole
+                {
+                    Name = model.RoleName
+                };
+                var result = await userManager.CreateAsync(user, model.Password);
+                var roleresult=await roleManager.CreateAsync(identityRole);
+
+                if (result.Succeeded&& roleresult.Succeeded)
+                {
+                    var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
 
-
+            return View(model);
         }
     }
-
+}

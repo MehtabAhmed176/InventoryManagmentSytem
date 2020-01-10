@@ -1,22 +1,25 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InventoryManagment.Models;
-using InventoryManagment.ViewModel;
+using InventoryManagement.Data;
+using InventoryManagement.Models;
 using Microsoft.AspNetCore.Hosting;
+using InventoryManagement.ViewModel;
 using System.IO;
-using System;
+using Microsoft.AspNetCore.Authorization;
 
-namespace InventoryManagment.Controllers
+namespace InventoryManagement.Controllers
 {
+    [Authorize]
     public class ItemsController : Controller
     {
-        private readonly InventoryDbContext _context;
-        [System.Obsolete]
+        private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        [System.Obsolete]
-        public ItemsController(InventoryDbContext context, IHostingEnvironment appEnvironment)
+        public ItemsController(ApplicationDbContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
             _hostingEnvironment = appEnvironment;
@@ -25,8 +28,7 @@ namespace InventoryManagment.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            
-            return View(await _context.Items.Include(c=>c.AllBranches).ToListAsync());
+            return View(await _context.Items.ToListAsync());
         }
 
         // GET: Items/Details/5
@@ -58,13 +60,12 @@ namespace InventoryManagment.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [System.Obsolete]
         public async Task<IActionResult> Create(ItemsViewModel model)
         {
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                if (model.Photo!=null)
+                if (model.Photo != null)
                 {
                     string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
@@ -74,7 +75,7 @@ namespace InventoryManagment.Controllers
                         model.Photo.CopyTo(fileStream);
                     }
                 }
-               
+
 
                 Item items = new Item();
                 items.ItemName = model.ItemName;
@@ -83,7 +84,7 @@ namespace InventoryManagment.Controllers
                 items.Description = model.Description;
                 items.Photo = uniqueFileName;
                 _context.Add(items);
-               
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

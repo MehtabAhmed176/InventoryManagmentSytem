@@ -1,13 +1,13 @@
-﻿@model IEnumerable<InventoryManagment.Models.Branch>
+﻿@model IEnumerable<InventoryManagement.Models.Branch>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-default">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -15,7 +15,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.BranchName)
             </th>
-            <th></th>
+         
         </tr>
     </thead>
     <tbody>
@@ -25,9 +25,9 @@
                 @Html.DisplayFor(modelItem => item.BranchName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.BranchId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BranchId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BranchId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.BranchId" class="btn btn-default">Edit</a> 
+                
+                <a asp-action="Delete" asp-route-id="@item.BranchId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

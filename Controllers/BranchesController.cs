@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InventoryManagment.Models;
+using InventoryManagement.Data;
+using InventoryManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace InventoryManagment.Controllers
+namespace InventoryManagement.Controllers
 {
+   // [Authorize]
     public class BranchesController : Controller
     {
-        private readonly InventoryDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public BranchesController(InventoryDbContext context)
+        public BranchesController(ApplicationDbContext context)
         {
             _context = context;
         }
